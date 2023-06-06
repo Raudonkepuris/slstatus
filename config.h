@@ -1,7 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* interval between updates (in ms) */
-const unsigned int interval = 1000;
+const unsigned int interval = 200;
 
 /* text to show if no value can be retrieved */
 static const char unknown_str[] = "n/a";
@@ -58,7 +58,6 @@ static const char unknown_str[] = "n/a";
  * uid                 UID of current user             NULL
  * uptime              system uptime                   NULL
  * username            username of current user        NULL
- * alsa_master_vol     ALSA Master device volume       NULL
  * vol_perc            OSS/ALSA volume in percent      mixer file (/dev/mixer)
  *                                                     NULL on OpenBSD/FreeBSD
  * wifi_essid          WiFi ESSID                      interface name (wlan0)
@@ -66,5 +65,9 @@ static const char unknown_str[] = "n/a";
  */
 static const struct arg args[] = {
 	/* function format          argument */
+	{ run_command, "BRIGHTNESS: %4s  ", "light"},
+	{ run_command, "VOL: %4s  ", "amixer sget Master | awk -F'[][]' '/%/ { print $2}' | head -n1"},
+	{ battery_perc, "BAT: %s%%  ",           "BAT0" },
+	{ battery_perc, "%s%%  ",           "BAT1" },
 	{ datetime, "%s",           "%F %T" },
 };
